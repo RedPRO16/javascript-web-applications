@@ -9,6 +9,6 @@ const multiply = require("./multiply");
 
 console.log('Hello from the developer console!');
 console.log(new Date());
-console.log('hey!!!!!!');
+console.log('hello world');
 
-console.log(multiply(add(3git, 2), 4))
+console.log(multiply(add(2, 2), 4))
