@@ -2,6 +2,8 @@ class MessageView {
   constructor() {
     this.showButtonEl = document.querySelector('#show-message-button');
     this.hideButtonEl = document.querySelector('#hide-message-button');
+    this.inputEl = document.querySelector('#message-input');
+
 
     this.showButtonEl.addEventListener('click', () => {
       this.displayMessage();
@@ -13,11 +15,20 @@ class MessageView {
   }
 
   displayMessage() {
+
+    const message = document.querySelector('#message-input').value;
+    console.log(message);
+
     const messageElement = document.createElement('div');
     messageElement.id = 'message';
-    messageElement.innerText = 'This is message';
+    messageElement.innerText = message;
+
+    document.querySelector('#message-input').value = '';
 
     document.querySelector('#main-container').append(messageElement);
+
+    //console.log(#main-container);
+
   }
 
   hideMessage() {
