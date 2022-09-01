@@ -1,26 +1,40 @@
 class NotesView {
+
   constructor(model) {
     this.model = model;
+    this.note = document.querySelector('#input-note');
+    this.buttonEl = document.querySelector('#add-note');
     this.mainContainerEl = document.querySelector('#main-container');
 
-    // this.buttonEl.addEventListener('click', () => {
-    //   this.model.addNote(this.note.value);
-    //   this.note.value = "";
-    //   this.displayNotes();
-    // });
+    document.querySelector('#add-note-btn').addEventListener('click', () => {
+      const newNote = document.querySelector('#add-note-input').value;
+      this.addNewNote(newNote);
+    });
   }
 
   displayNotes() {
 
-    this.model.getNotes().forEach((note) => {
-      let newDiv = null;
+    // 1. Remove all previous notes
+      document.querySelectorAll('.note').forEach(element => {
+      element.remove();
+      })
 
-      newDiv = document.createElement('div');
-      newDiv.textContent = note;
-      newDiv.className = "note";
-      this.mainContainerEl.append(newDiv);
-    });
+    const notes = this.model.getNotes()
+
+    // For each note, create and append a new element on the main container
+    notes.forEach(note => {
+      const noteEl = document.createElement('div');
+      noteEl.textContent = note;
+      noteEl.className = 'note';
+      this.mainContainerEl.append(noteEl);
+    })
+
+    addNewNote(newNote) {
+      this.model.addNote(newNote);
+      this.displayNotes();
+      }
   }
 }
+
 
 module.exports = NotesView;

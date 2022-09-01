@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 const NotesModel =require("./notesModel.js");
 
 describe ('NotesModel', ()=>{
@@ -15,7 +19,7 @@ describe ('NotesModel', ()=>{
 
     expect(model.getNotes()).toEqual(['Buy milk']);
 
-  })
+  });
 
   it('reset the list of notes', () => {
     const model = new NotesModel();
@@ -25,5 +29,5 @@ describe ('NotesModel', ()=>{
 
     expect(model.getNotes()).toEqual([])
 
-  })
+  });
 })
