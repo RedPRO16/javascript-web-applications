@@ -1,4 +1,3 @@
-
 const NotesModel =require("./notesModel.js");
 
 describe ('NotesModel', ()=>{

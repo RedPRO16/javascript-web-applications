@@ -7,12 +7,14 @@
 const fs = require('fs');
 const TitleView = require('./titleView');
 
+
+
 describe('Page view', () => {
   it('displays new title', () => {
-    // 1. Arrange - load the HTML so Jest can build its own DOM tree 
+    // 1. Arrange - load the HTML so Jest can build its own DOM tree
     // and instantiate our View class
-    document.body.innerHTML = fs.readFileSync('./index.html');    
-    const view = new TitleView();
+    document.body.innerHTML = fs.readFileSync('./index.html');
+    const view = new ParagraphView();
 
     // 2. Act - ask the view to display the new title (the DOM tree will change)
     view.display('This is my new title!');
@@ -21,5 +23,7 @@ describe('Page view', () => {
     // we get the DOM element and assert its content changed
     const titleEl = document.querySelector('#title');
     expect(titleEl.innerText).toBe('This is my new title!')
+
   });
+
 });
