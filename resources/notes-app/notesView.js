@@ -1,38 +1,48 @@
 class NotesView {
 
-  constructor(model) {
+  constructor(model, api) {
+    this.api = api
     this.model = model;
     this.note = document.querySelector('#input-note');
     this.buttonEl = document.querySelector('#add-note');
     this.mainContainerEl = document.querySelector('#main-container');
 
-    document.querySelector('#add-note-btn').addEventListener('click', () => {
-      const newNote = document.querySelector('#add-note-input').value;
-      this.addNewNote(newNote);
+    this.buttonEl.addEventListener('click', () => {
+      this.model.addNote(this.note.value);
+      this.api.createNote(this.note.value)
+      this.note.value = "";
+      this.displayNotes();
     });
   }
 
   displayNotes() {
 
     // 1. Remove all previous notes
-      document.querySelectorAll('.note').forEach(element => {
-      element.remove();
-      })
-
-    const notes = this.model.getNotes()
+    const notes = document.querySelectorAll('div.note');
+    notes.forEach((note) => {
+      note.remove();
+    });
 
     // For each note, create and append a new element on the main container
-    notes.forEach(note => {
+    this.model.getNotes().forEach(note => {
       const noteEl = document.createElement('div');
       noteEl.textContent = note;
       noteEl.className = 'note';
       this.mainContainerEl.append(noteEl);
     })
+  }
 
-    addNewNote(newNote) {
-      this.model.addNote(newNote);
-      this.displayNotes();
-      }
+  addNewNote(notes) {
+    this.model.addNote(notes);
+    this.displayNotes();
+  }
+
+
+  displayNotesFromApi() {
+    this.api.loadNotes((notes) => {
+      this.model.setNotes(notes)
+      this.displayNotes()
+    })
   }
 }
 

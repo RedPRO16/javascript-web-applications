@@ -26,38 +26,42 @@ describe ('NotesView class', ()=>{
   });
 
   it('adds a new note', () => {
-    // document.body.innerHTML = fs.readFileSync('./index.html');
 
-    const model = new NotesModel();
+    const model = new Model;
+    const mockApi = { createNote: jest.fn(), loadNotes: (callback) => callback(['note']) }
+    const notesView = new NotesView(model, mockApi);
+    const inputEl = document.querySelector('#input-note');
+    const buttonEl = document.querySelector('#add-note');
 
-    const view = new NotesView(model);
-
-    // 1. Fill the input
-    const input = document.querySelector('#add-note-input');
-    input.value = 'My new amazing test note';
-
-  // 2. Click the button
-    const button = document.querySelector('#add-note-btn');
-    button.click();
-
-    // 3. The note should be on the page
-    expect(document.querySelectorAll('div.note').length).toEqual(1);
-    expect(document.querySelectorAll('div.note')[0].textContent).toEqual('My new amazing test note');
+    inputEl.value = 'My new amazing test note?';
+    const check = inputEl.value
+    buttonEl.click();
+    expect(document.querySelector('div.note').textContent).toBe(check);
   });
 
   it('clear the list of previous notes before displaying', () => {
-    // document.body.innerHTML = fs.readFileSync('./index.html');
+    const model = new Model;
+    const mockApi = { createNote: jest.fn(), loadNotes: (callback) => callback(['note']) }
 
-    const model = new NotesModel();
-    const view = new NotesView(model);
-    model.addNote('one');
-    model.addNote('two');
+    const notesView = new NotesView(model, mockApi);
+    const inputEl = document.querySelector('#input-note');
+    const buttonEl = document.querySelector('#add-note');
 
-    view.displayNotes();
-    view.displayNotes();
-
-    expect(document.querySelectorAll('div.note').length).toEqual(2);
+    inputEl.value = 'Will this work?';
+    buttonEl.click();
+    expect(inputEl.value).toBe("")
   });
+
+  it('displays notes from api', () => {
+    const model = new Model;
+    const mockApi = { loadNotes: (callback) => callback(['note one', 'note two']) }
+    const notesView = new NotesView(model, mockApi);
+    notesView.displayNotesFromApi();
+    const results = document.querySelectorAll('div.note');
+    expect(results.length).toBe(2);
+    expect(results[0].textContent).toBe('note one')
+    expect(results[1].textContent).toBe('note two')
+  })
 
 
 })
